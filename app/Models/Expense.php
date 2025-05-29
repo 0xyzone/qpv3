@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\User;
+use App\ExpenseTypes;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
@@ -17,4 +18,8 @@ class Expense extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    protected $casts = [
+        'type' => ExpenseTypes::class,
+    ];
 }

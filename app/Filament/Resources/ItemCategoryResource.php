@@ -17,6 +17,7 @@ class ItemCategoryResource extends Resource
 {
     protected static ?string $model = ItemCategory::class;
 
+    protected static ?string $navigationGroup = 'Inventory';
     protected static ?string $navigationIcon = 'heroicon-o-tag';
     protected static ?string $activeNavigationIcon = 'heroicon-m-tag';
 

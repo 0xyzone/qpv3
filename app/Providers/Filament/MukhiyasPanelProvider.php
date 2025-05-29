@@ -28,6 +28,9 @@ class MukhiyasPanelProvider extends PanelProvider
             ->id('mukhiyas')
             ->path('mukhiyas')
             ->login()
+            ->brandLogo(asset('img/Final.png'))
+            ->brandLogoHeight('2.5rem')
+            ->darkModeBrandLogo(asset('img/Final Rectangle white.png'))
             ->colors([
                 'primary' => Color::Violet,
             ])
@@ -38,8 +41,8 @@ class MukhiyasPanelProvider extends PanelProvider
             ])
             ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\\Filament\\Widgets')
             ->widgets([
-                Widgets\AccountWidget::class,
-                Widgets\FilamentInfoWidget::class,
+                // Widgets\AccountWidget::class,
+                // Widgets\FilamentInfoWidget::class,
             ])
             ->middleware([
                 EncryptCookies::class,

@@ -10,6 +10,8 @@ use Filament\Widgets\StatsOverviewWidget\Stat;
 class OrderStatusWidget extends BaseWidget
 {
     protected static ?int $sort = 1;
+    protected ?string $heading = 'Orders By Status';
+    protected ?string $description = 'An overview of orders by their current status.';
     protected function getStats(): array
     {
         return [
