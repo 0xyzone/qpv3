@@ -2,16 +2,17 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\ItemResource\Pages;
-use App\Filament\Resources\ItemResource\RelationManagers;
-use App\Models\Item;
 use Filament\Forms;
-use Filament\Forms\Form;
-use Filament\Resources\Resource;
+use App\Models\Item;
 use Filament\Tables;
+use Filament\Forms\Form;
 use Filament\Tables\Table;
+use Illuminate\Support\Str;
+use Filament\Resources\Resource;
 use Illuminate\Database\Eloquent\Builder;
+use App\Filament\Resources\ItemResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use App\Filament\Resources\ItemResource\RelationManagers;
 
 class ItemResource extends Resource
 {
@@ -35,7 +36,7 @@ class ItemResource extends Resource
                             ->native(false)
                             ->placeholder('Select a category')
                             ->helperText('Choose the appropriate category for this item'),
-                            
+
                         Forms\Components\TextInput::make('name')
                             ->required()
                             ->maxLength(255)
@@ -43,7 +44,7 @@ class ItemResource extends Resource
                             ->helperText('Max 255 characters')
                             ->columnSpan(1),
                     ]),
-                    
+
                 Forms\Components\Section::make('Pricing & Details')
                     ->columns(3)
                     ->schema([
@@ -57,13 +58,13 @@ class ItemResource extends Resource
                             ->inputMode('decimal')
                             ->placeholder('0.00')
                             ->default(0.00),
-                            
+
                         Forms\Components\FileUpload::make('photo_path')
                             ->label('Product Image')
                             ->image()
                             ->directory('items')
                             ->disk('public')
-                            ->required()
+                            // ->required()
                             ->imageEditor()
                             ->imageCropAspectRatio('4:3')
                             ->imageResizeMode('cover')
@@ -73,7 +74,7 @@ class ItemResource extends Resource
                             ->helperText('Max file size: 2MB. Allowed types: JPG, PNG, WEBP')
                             ->columnSpan(2),
                     ]),
-                    
+
                 Forms\Components\Section::make('Description')
                     ->schema([
                         Forms\Components\Textarea::make('description')
@@ -89,36 +90,71 @@ class ItemResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
+            ->defaultSort('created_at', 'desc')
             ->columns([
-                Tables\Columns\TextColumn::make('itemCategory.name')
-                    ->numeric()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('name')
-                    ->searchable(),
                 Tables\Columns\ImageColumn::make('photo_path')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('price')
-                    ->money()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('created_at')
-                    ->dateTime()
+                    ->label('Image')
+                    ->circular()
+                    ->size(60)
+                    ->defaultImageUrl(asset('img/Food placements.png')),
+
+                Tables\Columns\TextColumn::make('name')
+                    ->searchable()
                     ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
+                    ->weight('medium')
+                    ->description(fn(Item $record) => Str::limit($record->description, 40))
+                    ->wrap(),
+
+                Tables\Columns\TextColumn::make('itemCategory.name')
+                    ->label('Category')
+                    ->sortable()
+                    ->searchable()
+                    ->badge()
+                    ->color('info'),
+
+                Tables\Columns\TextColumn::make('price')
+                    // ->money('रु')
+                    ->prefix('रु ')
+                    ->formatStateUsing(fn($state) => number_format($state, 0))
+                    ->sortable()
+                    ->alignEnd()
+                    ->color('success')
+                    ->weight('bold')
+                    ->alignCenter(),
+
+                Tables\Columns\TextColumn::make('created_at')
+                    ->dateTime('M d, Y h:i A')
+                    ->sortable()
+                    ->toggleable(),
+
                 Tables\Columns\TextColumn::make('updated_at')
-                    ->dateTime()
+                    ->dateTime('M d, Y h:i A')
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
-                //
+                Tables\Filters\SelectFilter::make('category')
+                    ->relationship('itemCategory', 'name')
+                    ->searchable()
+                    ->preload(),
+
+                // Tables\Filters\TrashedFilter::make(),
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
+                Tables\Actions\ViewAction::make(),
+                Tables\Actions\EditAction::make()
+                    ->color('primary'),
+                Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
+                    Tables\Actions\ForceDeleteBulkAction::make(),
+                    Tables\Actions\RestoreBulkAction::make(),
                 ]),
+            ])
+            ->emptyStateActions([
+                Tables\Actions\CreateAction::make(),
             ]);
     }
 

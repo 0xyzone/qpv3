@@ -2,16 +2,18 @@
 
 namespace App\Models;
 
+use App\OrderTypes;
+use App\Models\User;
+use App\DiscountTypes;
 use App\Models\OrderItem;
-use App\Models\ItemCategory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class Item extends Model
+class Order extends Model
 {
     /**
-     * Get all of the orderItem for the Item
+     * Get all of the orderItems for the Order
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
@@ -21,16 +23,16 @@ class Item extends Model
     }
 
     /**
-     * Get the itemCategory that owns the Item
+     * Get the user that owns the Order
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function itemCategory(): BelongsTo
+    public function user(): BelongsTo
     {
-        return $this->belongsTo(ItemCategory::class);
+        return $this->belongsTo(User::class);
     }
-
     protected $casts = [
-        'price' => 'float',
+        'order_type' => OrderTypes::class,
+        'discount_type' => DiscountTypes::class,
     ];
 }

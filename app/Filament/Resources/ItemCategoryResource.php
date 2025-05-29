@@ -43,7 +43,7 @@ class ItemCategoryResource extends Resource
                                     ->directory('item-categories')
                                     ->disk('public')
                                     ->moveFiles()
-                                    ->required()
+                                    // ->required()
                                     ->imageEditor()
                                     ->imageCropAspectRatio('1:1')
                                     ->imageResizeMode('cover')
@@ -66,7 +66,7 @@ class ItemCategoryResource extends Resource
                     ->label('Photo Preview')
                     ->circular()
                     ->size(80)
-                    ->defaultImageUrl(url('/images/default-category.png')),
+                    ->defaultImageUrl(asset('img/category placeholder.png')),
                 
                 Tables\Columns\TextColumn::make('name')
                     ->searchable()
