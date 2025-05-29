@@ -6,10 +6,7 @@ export default defineConfig({
     plugins: [
         laravel({
             input: ["resources/css/app.css", "resources/js/app.js"],
-            refresh: [
-                "app/Http/Livewire/**", // Custom Livewire components
-                "app/Filament/**", // Filament Resources
-            ],
+            refresh: true,
         }),
         tailwindcss(),
     ],

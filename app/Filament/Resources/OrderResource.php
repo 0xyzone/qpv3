@@ -15,6 +15,7 @@ use Filament\Forms\Form;
 use Filament\Tables\Table;
 use Illuminate\Support\Number;
 use Filament\Resources\Resource;
+use Illuminate\Support\Facades\URL;
 use Filament\Forms\Components\Split;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Fieldset;
@@ -118,6 +119,7 @@ class OrderResource extends Resource
                         Forms\Components\Textarea::make('special_instructions')
                             ->rows(1)
                             ->placeholder('Special instructions')
+                            ->autosize()
                             ->columnSpan(10),
                     ])
                     ->columns(10)
@@ -306,7 +308,8 @@ class OrderResource extends Resource
                             : collect([$state]);
 
                         // Return as array for listWithLineBreaks
-                        return $items->map(function ($item) {
+                        return $items->map(
+                            function ($item) {
                             $quantity = $item->quantity;
                             $formattedQty = ($quantity == floor($quantity))
                                 ? number_format($quantity)
@@ -353,6 +356,12 @@ class OrderResource extends Resource
                     ->action(function (Order $record) {
                         $record->update(['payment_status' => 'paid']);
                     }),
+                Tables\Actions\Action::make('Print Invoice')
+                    ->url(function (Model $record) {
+                        return URL::route('invoice.print', ['order' => $record]);
+                    }, shouldOpenInNewTab: true)
+                    ->button()
+                    ->visible(fn(Model $record): bool => $record->status != 'cancelled')
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
