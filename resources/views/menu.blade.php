@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{{ config('app.name', 'Laravel') }} - Menu</title>
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
+</head>
+<body class="bg-gray-100">
+    <div class="min-h-screen">
+        
+        <!-- Navigation -->
+        <nav class="bg-violet-900 shadow-lg">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex justify-between h-16">
+                    <div class="flex items-center">
+                        <a href="{{ url('/') }}" class="text-white text-2xl font-bold">
+                            {{ config('app.name', 'Laravel') }}
+                        </a>
+                    </div>
+                    <div class="hidden sm:flex sm:items-center sm:space-x-4">
+                        <a href="{{ route('home') }}" class="text-violet-200 hover:text-white px-3 py-2 rounded-md text-lg font-medium">Home</a>
+                        <a href="{{ route('menu') }}" class="bg-violet-800 text-white px-3 py-2 rounded-md text-lg font-medium">Menu</a>
+                    </div>
+                    <div class="-mr-2 flex items-center sm:hidden">
+                        <button type="button" class="inline-flex items-center justify-center p-2 rounded-md text-violet-200 hover:text-white hover:bg-violet-600 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white" aria-controls="mobile-menu" aria-expanded="false" id="mobile-menu-button">
+                            <span class="sr-only">Open main menu</span>
+                            <svg class="block h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Mobile Menu -->
+            <div class="sm:hidden" id="mobile-menu" class="hidden">
+                <div class="px-2 pt-2 pb-3 space-y-1">
+                    <a href="{{ route('home') }}" class="text-violet-200 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Home</a>
+                    <a href="{{ route('menu') }}" class="bg-violet-800 text-white block px-3 py-2 rounded-md text-base font-medium">Menu</a>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Menu Content -->
+        <main class="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
+            <div class="px-4 py-6 sm:px-0">
+                <h1 class="text-4xl font-bold text-violet-900 mb-8 text-center">Our Menu</h1>
+
+                <!-- Search Functionality -->
+                <div class="mb-6">
+                    <input type="text" id="search" placeholder="Search..." class="block w-full p-3 border border-violet-300 rounded-md focus:outline-none focus:ring focus:ring-violet-500" />
+                </div>
+
+                <!-- Tabs for Categories -->
+                <div class="mb-4">
+                    <div class="flex overflow-x-auto space-x-4">
+                        @foreach($categories as $index => $category)
+                            <button class="tab-button px-4 py-2 text-sm font-medium text-violet-700 rounded-md focus:outline-none focus:ring-2 focus:ring-violet-500 {{ $index === 0 ? 'bg-violet-200' : 'bg-white' }}" data-tab="tab{{ $index }}">
+                                {{ $category->name }}
+                            </button>
+                        @endforeach
+                    </div>
+                </div>
+
+                <!-- Menu Items -->
+                <div id="menuItems">
+                    @foreach($categories as $index => $category)
+                    <div class="tab-content {{ $index === 0 ? 'block' : 'hidden' }}" id="tab{{ $index }}">
+                        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                            @foreach($category->items as $item)
+                            <div class="menu-item bg-white rounded-lg shadow-md overflow-hidden border border-violet-200 hover:shadow-lg transition-shadow duration-300">
+                                <img src="{{ $item->photo_path ? asset($item->photo_path) : asset('img/Food placements.png') }}" alt="{{ $item->name }}" class="w-full h-48 object-cover">
+                                <div class="p-4">
+                                    <h3 class="font-semibold text-violet-800 text-lg">{{ $item->name }}</h3>
+                                    @if($item->description)
+                                        <p class="text-sm text-gray-600 mt-1">{{ $item->description }}</p>
+                                    @endif
+                                    <span class="font-bold text-violet-700 text-lg">${{ number_format($item->price, 2) }}</span>
+                                </div>
+                            </div>
+                            @endforeach
+                        </div>
+                    </div>
+                    @endforeach
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-violet-900 text-white py-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center">
+                <p>&copy; {{ date('Y') }} {{ config('app.name', 'Laravel') }}. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Mobile menu toggle script -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+            
+            mobileMenuButton.addEventListener('click', function() {
+                const expanded = this.getAttribute('aria-expanded') === 'true';
+                this.setAttribute('aria-expanded', !expanded);
+                mobileMenu.classList.toggle('hidden');
+            });
+
+            // Tab functionality
+            const tabButtons = document.querySelectorAll('.tab-button');
+            const tabContents = document.querySelectorAll('.tab-content');
+
+            tabButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const targetTab = button.getAttribute('data-tab');
+
+                    // Hide all tab contents
+                    tabContents.forEach(content => {
+                        content.classList.add('hidden');
+                    });
+
+                    // Remove active class from all buttons
+                    tabButtons.forEach(btn => {
+                        btn.classList.remove('bg-violet-200');
+                    });
+
+                    // Show the selected tab content
+                    document.getElementById(targetTab).classList.remove('hidden');
+                    button.classList.add('bg-violet-200');
+                });
+            });
+
+            // Search functionality
+            const searchInput = document.getElementById('search');
+            const menuItems = document.querySelectorAll('.menu-item');
+
+            searchInput.addEventListener('input', filterMenu);
+
+            function filterMenu() {
+                const searchTerm = searchInput.value.toLowerCase();
+
+                menuItems.forEach(item => {
+                    const itemName = item.querySelector('h3').textContent.toLowerCase();
+                    if (itemName.includes(searchTerm)) {
+                        item.classList.remove('hidden');
+                    } else {
+                        item.classList.add('hidden');
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html>

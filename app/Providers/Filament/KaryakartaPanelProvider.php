@@ -51,6 +51,7 @@ class KaryakartaPanelProvider extends PanelProvider
             ])
             ->authMiddleware([
                 Authenticate::class,
-            ]);
+            ])
+            ->databaseNotifications();
     }
 }

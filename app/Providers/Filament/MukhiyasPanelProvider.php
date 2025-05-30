@@ -58,6 +58,7 @@ class MukhiyasPanelProvider extends PanelProvider
             ->authMiddleware([
                 Authenticate::class,
             ])
+            ->databaseNotifications()
             ->plugins([
                 FilamentApexChartsPlugin::make()
             ]);
