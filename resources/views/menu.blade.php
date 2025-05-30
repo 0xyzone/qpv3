@@ -34,7 +34,7 @@
             </div>
 
             <!-- Mobile Menu -->
-            <div class="sm:hidden" id="mobile-menu" class="hidden">
+            <div class="sm:hidden hidden" id="mobile-menu">
                 <div class="px-2 pt-2 pb-3 space-y-1">
                     <a href="{{ route('home') }}" class="text-violet-200 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Home</a>
                     <a href="{{ route('menu') }}" class="bg-violet-800 text-white block px-3 py-2 rounded-md text-base font-medium">Menu</a>
@@ -69,14 +69,16 @@
                     <div class="tab-content {{ $index === 0 ? 'block' : 'hidden' }}" id="tab{{ $index }}">
                         <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
                             @foreach($category->items as $item)
-                            <div class="menu-item bg-white rounded-lg shadow-md overflow-hidden border border-violet-200 hover:shadow-lg transition-shadow duration-300">
-                                <img src="{{ $item->photo_path ? asset($item->photo_path) : asset('img/Food placements.png') }}" alt="{{ $item->name }}" class="w-full h-48 object-cover">
+                            <div class="menu-item bg-white rounded-lg shadow-lg overflow-hidden border border-violet-200 hover:shadow-xl transition-shadow duration-300">
+                                <div class="relative w-full h-48">
+                                    <img src="{{ $item->photo_path ? asset($item->photo_path) : asset('img/Food placements.png') }}" alt="{{ $item->name }}" class="absolute inset-0 w-full h-full object-cover">
+                                </div>
                                 <div class="p-4">
                                     <h3 class="font-semibold text-violet-800 text-lg">{{ $item->name }}</h3>
                                     @if($item->description)
                                         <p class="text-sm text-gray-600 mt-1">{{ $item->description }}</p>
                                     @endif
-                                    <span class="font-bold text-violet-700 text-lg">${{ number_format($item->price, 2) }}</span>
+                                    <span class="font-bold text-violet-700 text-lg">रु {{ number_format($item->price, 2) }}</span>
                                 </div>
                             </div>
                             @endforeach
