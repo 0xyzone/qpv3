@@ -15,7 +15,7 @@ class MenuController extends Controller
         // Load categories with their items, ordered as needed
         $categories = ItemCategory::with(['items' => function($query) {
             $query->orderBy('name');
-        }])->orderBy('name')->get();
+        }])->orderBy('id')->get();
 
         return view('menu', compact('categories'));
     }
