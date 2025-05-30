@@ -4,6 +4,7 @@ namespace App\Filament\Resources\ItemResource\Pages;
 
 use App\Filament\Resources\ItemResource;
 use Filament\Actions;
+use Filament\Actions\ImportAction;
 use Filament\Resources\Pages\ListRecords;
 
 class ListItems extends ListRecords
@@ -13,6 +14,11 @@ class ListItems extends ListRecords
     protected function getHeaderActions(): array
     {
         return [
+            ImportAction::make()
+                ->label('Import Items')
+                ->icon('heroicon-o-upload')
+                ->modalHeading('Import Items')
+                ->modalDescription('Upload a CSV file to import items.'),
             Actions\CreateAction::make(),
         ];
     }
