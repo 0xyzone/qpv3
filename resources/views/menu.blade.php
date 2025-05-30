@@ -4,6 +4,20 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{{ config('app.name', 'Laravel') }} - Menu</title>
+
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="{{ config('app.name', 'Laravel') }} - Menu" />
+    <meta property="og:description" content="Explore our delicious menu featuring a variety of dishes made with fresh ingredients. Perfect for any occasion!" />
+    <meta property="og:image" content="{{ asset('img/Food placements.png') }}" />
+    <meta property="og:url" content="{{ url()->current() }}" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="{{ config('app.name', 'Laravel') }}" />
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="{{ config('app.name', 'Laravel') }} - Menu" />
+    <meta name="twitter:description" content="Explore our delicious menu featuring a variety of dishes made with fresh ingredients. Perfect for any occasion!" />
+    <meta name="twitter:image" content="{{ asset('img/Food placements.png') }}" />
+    
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 <body class="bg-gray-100">
