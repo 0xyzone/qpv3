@@ -16,7 +16,6 @@ class ListItems extends ListRecords
         return [
             ImportAction::make()
                 ->label('Import Items')
-                ->icon('heroicon-o-upload')
                 ->modalHeading('Import Items')
                 ->modalDescription('Upload a CSV file to import items.'),
             Actions\CreateAction::make(),
