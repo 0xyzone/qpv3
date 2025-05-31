@@ -11,3 +11,4 @@ Route::get('/', function () {
 Route::get('/invoices/{order}', [InvoiceController::class, 'print'])->name('invoice.print');
 // Menu route
 Route::get('/menu', [MenuController::class, 'index'])->name('menu');
+Route::view('demo', 'demo')->name('demo');

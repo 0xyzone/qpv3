@@ -22,39 +22,10 @@
 </head>
 <body class="bg-gray-100">
     <div class="min-h-screen">
-        
-        <!-- Navigation -->
-        <nav class="bg-gray-900 shadow-lg">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="flex justify-between h-16">
-                    <div class="flex items-center">
-                        <a href="{{ url('/') }}" class="text-white text-2xl font-bold">
-                            <img src="{{ asset('img/Final Rectangle white.png') }}" alt="Logo" class="h-10 w-auto inline-block">
-                        </a>
-                    </div>
-                    <div class="hidden sm:flex sm:items-center sm:space-x-4">
-                        <a href="{{ route('home') }}" class="text-violet-200 hover:text-white px-3 py-2 rounded-md text-lg font-medium">Home</a>
-                        <a href="{{ route('menu') }}" class="bg-violet-800 text-white px-3 py-2 rounded-md text-lg font-medium">Menu</a>
-                    </div>
-                    <div class="-mr-2 flex items-center sm:hidden">
-                        <button type="button" class="inline-flex items-center justify-center p-2 rounded-md text-violet-200 hover:text-white hover:bg-violet-600 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white" aria-controls="mobile-menu" aria-expanded="false" id="mobile-menu-button">
-                            <span class="sr-only">Open main menu</span>
-                            <svg class="block h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
-                            </svg>
-                        </button>
-                    </div>
-                </div>
-            </div>
 
-            <!-- Mobile Menu -->
-            <div class="sm:hidden hidden" id="mobile-menu">
-                <div class="px-2 pt-2 pb-3 space-y-1">
-                    <a href="{{ route('home') }}" class="text-violet-200 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Home</a>
-                    <a href="{{ route('menu') }}" class="bg-violet-800 text-white block px-3 py-2 rounded-md text-base font-medium">Menu</a>
-                </div>
-            </div>
-        </nav>
+        <!-- Navigation -->
+        <x-nav></x-nav>
+
 
         <!-- Menu Content -->
         <main class="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
@@ -70,9 +41,9 @@
                 <div class="mb-4">
                     <div class="flex overflow-x-auto space-x-4">
                         @foreach($categories as $index => $category)
-                            <button class="tab-button px-4 py-2 text-sm font-medium text-violet-700 rounded-md focus:outline-none focus:ring-2 focus:ring-violet-500 {{ $index === 0 ? 'bg-violet-200' : 'bg-white' }}" data-tab="tab{{ $index }}">
-                                {{ $category->name }}
-                            </button>
+                        <button class="tab-button px-4 py-2 text-sm font-medium text-violet-700 rounded-md focus:outline-none focus:ring-2 focus:ring-violet-500 {{ $index === 0 ? 'bg-violet-200' : 'bg-white' }}" data-tab="tab{{ $index }}">
+                            {{ $category->name }}
+                        </button>
                         @endforeach
                     </div>
                 </div>
@@ -90,7 +61,7 @@
                                 <div class="p-4">
                                     <h3 class="font-semibold text-violet-800 text-lg">{{ $item->name }}</h3>
                                     @if($item->description)
-                                        <p class="text-sm text-gray-600 mt-1">{{ $item->description }}</p>
+                                    <p class="text-sm text-gray-600 mt-1">{{ $item->description }}</p>
                                     @endif
                                     <span class="font-bold text-violet-700 text-lg">रु {{ number_format($item->price, 2) }}</span>
                                 </div>
@@ -118,7 +89,7 @@
         document.addEventListener('DOMContentLoaded', function() {
             const mobileMenuButton = document.getElementById('mobile-menu-button');
             const mobileMenu = document.getElementById('mobile-menu');
-            
+
             mobileMenuButton.addEventListener('click', function() {
                 const expanded = this.getAttribute('aria-expanded') === 'true';
                 this.setAttribute('aria-expanded', !expanded);
@@ -168,6 +139,7 @@
                 });
             }
         });
+
     </script>
 </body>
 </html>
