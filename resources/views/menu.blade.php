@@ -17,19 +17,19 @@
     <meta name="twitter:title" content="{{ config('app.name', 'Laravel') }} - Menu" />
     <meta name="twitter:description" content="Explore our delicious menu featuring a variety of dishes made with fresh ingredients. Perfect for any occasion!" />
     <meta name="twitter:image" content="{{ asset('img/Food placements.png') }}" />
-    
+
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 <body class="bg-gray-100">
     <div class="min-h-screen">
         
         <!-- Navigation -->
-        <nav class="bg-violet-900 shadow-lg">
+        <nav class="bg-gray-900 shadow-lg">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="flex justify-between h-16">
                     <div class="flex items-center">
                         <a href="{{ url('/') }}" class="text-white text-2xl font-bold">
-                            {{ config('app.name', 'Laravel') }}
+                            <img src="{{ asset('img/Final Rectangle white.png') }}" alt="Logo" class="h-10 w-auto inline-block">
                         </a>
                     </div>
                     <div class="hidden sm:flex sm:items-center sm:space-x-4">
@@ -81,7 +81,7 @@
                 <div id="menuItems">
                     @foreach($categories as $index => $category)
                     <div class="tab-content {{ $index === 0 ? 'block' : 'hidden' }}" id="tab{{ $index }}">
-                        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        <div class="grid md:grid-cols-2 lg:grid-cols-5 gap-6">
                             @foreach($category->items as $item)
                             <div class="menu-item bg-white rounded-lg shadow-lg overflow-hidden border border-violet-200 hover:shadow-xl transition-shadow duration-300">
                                 <div class="relative w-full h-48">
@@ -106,7 +106,7 @@
 
     <!-- Footer -->
     <footer class="bg-violet-900 text-white py-8">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center">
             <div class="text-center">
                 <p>&copy; {{ date('Y') }} {{ config('app.name', 'Laravel') }}. All rights reserved.</p>
             </div>
