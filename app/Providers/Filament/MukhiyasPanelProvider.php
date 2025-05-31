@@ -31,6 +31,7 @@ class MukhiyasPanelProvider extends PanelProvider
             ->brandLogo(asset('img/Final.png'))
             ->brandLogoHeight('2.5rem')
             ->darkModeBrandLogo(asset('img/Final Rectangle white.png'))
+            // ->viteTheme('resources/css/filament/mukhiyas/theme.css')
             ->colors([
                 'primary' => Color::Violet,
             ])
