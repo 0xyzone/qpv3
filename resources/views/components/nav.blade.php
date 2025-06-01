@@ -2,7 +2,7 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between h-16">
             <div class="flex items-center">
-                <a href="{{ url('/') }}" class="text-white text-2xl font-bold">
+                <a href="{{ route('home') }}" class="text-white text-2xl font-bold">
                     <img src="{{ asset('img/Final.png') }}" alt="QuickPick Logo" class="h-10">
                 </a>
             </div>
