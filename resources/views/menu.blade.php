@@ -52,7 +52,7 @@
                 <div id="menuItems">
                     @foreach($categories as $index => $category)
                     <div class="tab-content {{ $index === 0 ? 'block' : 'hidden' }}" id="tab{{ $index }}">
-                        <div class="grid md:grid-cols-2 lg:grid-cols-5 gap-6">
+                        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
                             @foreach($category->items as $item)
                             <div class="menu-item bg-white rounded-lg shadow-lg overflow-hidden border border-violet-200 hover:shadow-xl transition-shadow duration-300">
                                 <div class="relative w-full h-48">
