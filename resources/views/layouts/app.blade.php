@@ -4,8 +4,8 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="icon" href="{{ asset('favicon.png') }}" type="image/x-icon">
-    <title>QuickPick {{ $titleName ? " - " . $titleName : "" }}</title>
-    
+    <title>QuickPick {{ isset($titleName) ? ' - ' . $titleName : '' }}</title>
+
     <!-- Open Graph Meta Tags -->
     <meta property="og:title" content="QuickPick - Fast, Friendly Takeaway Food" />
     <meta property="og:description" content="Join us for fresh, delicious meals quickly and conveniently. Perfect for people on the go!" />
@@ -19,16 +19,15 @@
     <meta name="twitter:title" content="QuickPick - Fast, Friendly Takeaway Food" />
     <meta name="twitter:description" content="Join us for fresh, delicious meals quickly and conveniently. Perfect for people on the go!" />
     <meta name="twitter:image" content="{{ asset('img/Final Rectangle white.png') }}" />
-    
+
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     @stack('styles')
 </head>
 <body class="bg-gray-100">
     <div class="min-h-screen">
-        
-        <!-- Navigation -->
-        <x-nav></x-nav>
 
+        <!-- Navigation -->
+        <x-nav />
         {{ $slot }}
 
         <!-- Footer -->

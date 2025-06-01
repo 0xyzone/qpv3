@@ -17,6 +17,8 @@ class MenuController extends Controller
             $query->orderBy('name');
         }])->orderBy('id')->get();
 
-        return view('menu', compact('categories'));
+        $titleName = 'Menu';
+
+        return view('menu', compact('categories', 'titleName'));
     }
 }
