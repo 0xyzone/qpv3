@@ -1,4 +1,4 @@
-<x-app>
+<x-app titleName="{{ $titleName }}">
     @push('styles')
     <style>
         .contact-bubble {

@@ -31,30 +31,36 @@
     <style>
         body {
             font-family: 'Poppins', sans-serif;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
         }
-        
+
         h2 {
             font-family: 'Borel', cursive;
+        }
+
+        #page-content {
+            flex: 1;
         }
 
     </style>
 </head>
 <body class="bg-gray-100">
-    <div class="min-h-screen">
 
+    <div id="page-content">
         <!-- Navigation -->
         <x-nav />
         {{ $slot }}
-
-        <!-- Footer -->
-        <footer class="bg-violet-900 text-white py-8">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="text-center">
-                    <p>&copy; {{ date('Y') }} QuickPick. All rights reserved.</p>
-                </div>
-            </div>
-        </footer>
     </div>
+    <!-- Footer -->
+    <footer class="bg-violet-900 text-white py-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center">
+                <p>&copy; {{ date('Y') }} QuickPick. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
     @stack('scripts')
 </body>
 </html>

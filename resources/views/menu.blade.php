@@ -11,9 +11,9 @@
 
             <!-- Tabs for Categories -->
             <div class="mb-4">
-                <div class="flex overflow-x-auto space-x-4">
+                <div class="flex overflow-x-auto space-x-4 py-4">
                     @foreach($categories as $index => $category)
-                    <button class="tab-button px-4 py-2 text-sm font-medium text-violet-700 rounded-md focus:outline-none cursor-pointer hover:bg-violet-200 hover:scale-110 duration-300 {{ $index === 0 ? 'bg-violet-200' : 'bg-white' }}" data-tab="tab{{ $index }}">
+                    <button class="tab-button px-4 py-2 text-sm font-medium text-violet-700 rounded-md focus:outline-none cursor-pointer hover:bg-violet-200 hover:scale-110 duration-300 {{ $index === 0 ? 'bg-violet-200' : 'bg-white' }} flex-shrink-0" data-tab="tab{{ $index }}">
                         {{ $category->name }}
                     </button>
                     @endforeach
@@ -26,7 +26,7 @@
                 <div class="tab-content {{ $index === 0 ? 'block' : 'hidden' }}" id="tab{{ $index }}">
                     <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
                         @foreach($category->items as $item)
-                        <div class="menu-item bg-white rounded-lg shadow-lg overflow-hidden border border-violet-200 hover:shadow-xl transition-shadow duration-300 flex flex-col">
+                        <div class="menu-item bg-white rounded-4xl shadow-lg overflow-hidden border border-violet-200 hover:shadow-xl transition-shadow duration-300 flex flex-col">
                             <div class="relative w-full h-48">
                                 <img src="{{ $item->photo_path ? asset($item->photo_path) : asset('img/Food placements.png') }}" alt="{{ $item->name }}" class="absolute inset-0 w-full h-full object-cover">
                             </div>
