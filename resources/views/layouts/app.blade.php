@@ -9,7 +9,7 @@
     <!-- Open Graph Meta Tags -->
     <meta property="og:title" content="QuickPick - Fast, Friendly Takeaway Food" />
     <meta property="og:description" content="Join us for fresh, delicious meals quickly and conveniently. Perfect for people on the go!" />
-    <meta property="og:image" content="{{ asset('img/Final Rectangle white.png') }}" />
+    <meta property="og:image" content="{{ asset('img/Final with color bg.png') }}" />
     <meta property="og:url" content="{{ url()->current() }}" />
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="QuickPick" />
@@ -18,7 +18,7 @@
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="QuickPick - Fast, Friendly Takeaway Food" />
     <meta name="twitter:description" content="Join us for fresh, delicious meals quickly and conveniently. Perfect for people on the go!" />
-    <meta name="twitter:image" content="{{ asset('img/Final Rectangle white.png') }}" />
+    <meta name="twitter:image" content="{{ asset('img/Final with color bg.png') }}" />
 
     {{-- Google Fonts - Poppins --}}
     <link rel="preconnect" href="https://fonts.googleapis.com">
