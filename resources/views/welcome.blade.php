@@ -67,10 +67,10 @@
         }
 
         .hero {
-            background-image: url('https://source.unsplash.com/1600x900/?food,takeaway');
-            background-size: cover;
-            background-position: center;
-            height: 100vh;
+            /* background-image: url('{{ asset('img/hero-bg.jpg') }}'); */
+            /* background-size: cover; */
+            /* background-position: center; */
+            height: full;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -79,7 +79,7 @@
             position: relative;
         }
 
-        .hero::after {
+        /* .hero::after {
             content: '';
             position: absolute;
             top: 0;
@@ -87,7 +87,7 @@
             right: 0;
             bottom: 0;
             background: rgba(0, 0, 0, 0.5);
-        }
+        } */
 
         .hero-content {
             position: relative;
@@ -105,13 +105,14 @@
     </style>
     @endpush
     <!-- Hero Section -->
-    <header class="hero">
-        <div class="hero-content">
-            <h1 class="text-5xl font-bold fade-in">Welcome to QuickPick!</h1>
+    <div class="hero">
+        <img src="{{ asset('img/hero-bg.jpg') }}" alt="" class="w-full h-[35vh] md:h-full object-cover">
+        <!-- <div class="hero-content h-full">
+            {{-- <h1 class="text-5xl font-bold fade-in">Welcome to QuickPick!</h1>
             <p class="mt-4 text-lg fade-in">Fast, friendly takeaway food designed for people on the go!</p>
-            <a href="{{ route('menu') }}" class="mt-6 inline-block bg-white text-violet-800 px-6 py-3 rounded-md font-semibold hover:bg-violet-200 transition duration-300 bounce">Grab Your Meal Now!</a>
-        </div>
-    </header>
+            <a href="{{ route('menu') }}" class="mt-6 inline-block bg-white text-violet-800 px-6 py-3 rounded-md font-semibold hover:bg-violet-200 transition duration-300 bounce">Grab Your Meal Now!</a> --}}
+        </div> -->
+    </div>
 
     <!-- About Section -->
     <section class="max-w-7xl mx-auto py-16 px-4 sm:px-6 lg:px-8">
