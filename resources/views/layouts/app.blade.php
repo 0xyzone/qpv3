@@ -36,7 +36,7 @@
             min-height: 100vh;
         }
 
-        h2 {
+        h1, h2 {
             font-family: 'Borel', cursive;
         }
 

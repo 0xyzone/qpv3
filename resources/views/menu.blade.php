@@ -2,7 +2,7 @@
     <!-- Menu Content -->
     <main class="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
         <div class="px-4 py-6 sm:px-0">
-            <h2 class="text-4xl font-bold text-violet-900 mb-8 text-center">Our Menu</h2>
+            <h1 class="text-4xl font-bold text-violet-900 mb-8 text-center">Our Menu</h1>
 
             <!-- Search Functionality -->
             <div class="mb-6">
