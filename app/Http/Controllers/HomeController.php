@@ -52,4 +52,9 @@ class HomeController extends Controller
         ];
         return view('welcome', compact('popularItems'));
     }
+
+    public function contact()
+    {
+        return view('contact');
+    }
 }

@@ -8,6 +8,7 @@
             </div>
             <div class="hidden sm:flex sm:items-center sm:space-x-4">
                 <a href="{{ route('home') }}" class="{{ request()->routeIs('home') ? 'bg-violet-800 text-white hover:text-white' : '' }} text-violet-400 hover:text-violet-800 px-3 py-2 rounded-md text-lg font-medium">Home</a>
+                <a href="{{ route('contact') }}" class="{{ request()->routeIs('contact') ? 'bg-violet-800 text-white hover:text-white' : '' }} text-violet-400 hover:text-violet-800 px-3 py-2 rounded-md text-lg font-medium">Contact Us</a>
                 <a href="{{ route('menu') }}" class="{{ request()->routeIs('menu') ? 'bg-violet-800 text-white hover:text-white' : '' }} text-violet-400 hover:text-violet-800 px-3 py-2 rounded-md text-lg font-medium">Menu</a>
             </div>
             <div class="-mr-2 flex items-center sm:hidden">
@@ -25,6 +26,9 @@
     <div class="sm:hidden hidden" id="mobile-menu">
         <div class="px-2 pt-2 pb-3 space-y-1">
             <a href="{{ route('home') }}" class="{{ request()->routeIs('home') ? 'bg-violet-800 text-white' : '' }} text-violet-400 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Home</a>
+
+            <a href="{{ route('contact') }}" class="{{ request()->routeIs('contact') ? 'bg-violet-800 text-white' : '' }} text-violet-400 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Contact Us</a>
+            
             <a href="{{ route('menu') }}" class="{{ request()->routeIs('menu') ? 'bg-violet-800 text-white' : '' }} text-violet-400 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Menu</a>
         </div>
     </div>
