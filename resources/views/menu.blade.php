@@ -6,7 +6,7 @@
 
             <!-- Search Functionality -->
             <div class="mb-6">
-                <input type="text" id="search" placeholder="Search..." class="block w-full p-3 border border-violet-300 rounded-md focus:outline-none focus:ring focus:ring-violet-500" />
+                <input type="text" id="search" placeholder="Search..." class="block w-full p-3 border border-violet-300 rounded-2xl focus:outline-none focus:ring focus:ring-violet-500" />
             </div>
 
             <!-- Tabs for Categories -->
