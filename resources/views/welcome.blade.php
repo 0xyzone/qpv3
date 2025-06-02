@@ -112,4 +112,5 @@
     <x-menu-hero :popularItems="$popularItems" />
 
     <x-faq />
+    <x-socials />
 </x-app>
