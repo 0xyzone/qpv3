@@ -30,7 +30,7 @@
                             <div class="relative w-full h-48">
                                 <img src="{{ $item->photo_path ? asset($item->photo_path) : asset('img/Food placements.png') }}" alt="{{ $item->name }}" class="absolute inset-0 w-full h-full object-cover">
                             </div>
-                            <div class="p-4 flex flex-col flex-grow">
+                            <div class="p-6 flex flex-col flex-grow">
                                 <h3 class="font-semibold text-violet-800 text-lg h-fit">{{ $item->name }}</h3>
                                 @if($item->description)
                                 <p class="text-sm text-gray-600 mt-1 flex-grow">{{ $item->description }}</p>
