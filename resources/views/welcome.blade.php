@@ -1,11 +1,6 @@
 <x-app>
     @push('styles')
     <style>
-        /* Custom styles for animations and layout */
-        body {
-            font-family: 'Arial', sans-serif;
-        }
-
         .fade-in {
             animation: fadeIn 1s ease-in-out;
         }
@@ -105,7 +100,7 @@
     </style>
     @endpush
     <!-- Hero Section -->
-    <div class="hero">
+    <div class="hero rounded-b-[4rem] md:rounded-b-[8rem] overflow-hidden">
         <img src="{{ asset('img/hero-bg.jpg') }}" alt="" class="w-full h-[35vh] md:h-full object-cover">
         <!-- <div class="hero-content h-full">
             {{-- <h1 class="text-5xl font-bold fade-in">Welcome to QuickPick!</h1>
@@ -113,6 +108,8 @@
             <a href="{{ route('menu') }}" class="mt-6 inline-block bg-white text-violet-800 px-6 py-3 rounded-md font-semibold hover:bg-violet-200 transition duration-300 bounce">Grab Your Meal Now!</a> --}}
         </div> -->
     </div>
+
+    <x-menu-hero :popularItems="$popularItems" />
 
     <!-- About Section -->
     <section class="max-w-7xl mx-auto py-16 px-4 sm:px-6 lg:px-8">
