@@ -110,7 +110,7 @@
     </div>
 
     <x-menu-hero :popularItems="$popularItems" />
-
+    <x-reviews />
     <x-faq />
     <x-socials />
 </x-app>
