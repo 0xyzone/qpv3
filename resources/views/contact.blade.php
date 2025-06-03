@@ -23,7 +23,7 @@
     <section class="hero rounded-b-[4rem] md:rounded-b-[8rem] overflow-hidden relative">
         <div class="absolute inset-0 bg-violet-900/30"></div>
         <img src="{{ asset('img/lower silhouette.png') }}" alt="" class="w-full h-[35vh] md:h-[40vh] object-cover">
-        <div class="absolute inset-0 flex justify-center items-end pb-8">
+        <div class="absolute inset-0 flex justify-center items-end 2xl:pb-8">
             <h1 class="text-4xl md:text-6xl font-bold text-white drop-shadow-lg">Get in Touch</h1>
         </div>
     </section>
