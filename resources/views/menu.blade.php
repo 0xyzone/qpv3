@@ -28,7 +28,7 @@
                         @foreach($category->items as $item)
                         <div class="menu-item bg-white rounded-4xl shadow-lg overflow-hidden border border-violet-200 hover:shadow-xl transition-shadow duration-300 flex flex-col">
                             <div class="relative w-full h-48">
-                                <img src="{{ $item->photo_path ? asset($item->photo_path) : asset('img/Food placements.png') }}" alt="{{ $item->name }}" class="absolute inset-0 w-full h-full object-cover">
+                                <img src="{{ $item->photo_path ? asset('storage/' . $item->photo_path) : asset('img/Food placements.png') }}" alt="{{ $item->name }}" class="absolute inset-0 w-full h-full object-cover">
                             </div>
                             <div class="p-6 flex flex-col flex-grow">
                                 <h3 class="font-semibold text-violet-800 text-lg h-fit">{{ $item->name }}</h3>
