@@ -6,6 +6,7 @@ use App\OrderTypes;
 use Filament\Forms;
 use App\Models\Item;
 use App\Models\User;
+use Filament\Forms\Components\Textarea;
 use Filament\Tables;
 use App\Models\Order;
 use App\OrderStatuses;
@@ -58,7 +59,7 @@ class OrderResource extends Resource
                     ->required(fn(Get $get) => $get('order_type') === OrderTypes::DELIVERY->value)
                     ->hidden(fn(Get $get): bool => $get('order_type') !== OrderTypes::DELIVERY->value),
 
-                Forms\Components\TextArea::make('delivery_instructions')
+                Textarea::make('delivery_instructions')
                     ->required(fn(Get $get) => $get('order_type') === OrderTypes::DELIVERY->value)
                     ->hidden(fn(Get $get): bool => $get('order_type') !== OrderTypes::DELIVERY->value),
 
