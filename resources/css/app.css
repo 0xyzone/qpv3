@@ -2,6 +2,8 @@
 
 @source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
 @source '../../storage/framework/views/*.php';
+@source '../views/vendor/filament-kanban/kanban-header.blade.php';
+@source '../views/vendor/filament-kanban/kanban-record.blade.php';
 @source '../**/*.blade.php';
 @source '../**/*.js';
 

@@ -2,25 +2,36 @@
 
 namespace App\Http\Controllers;
 
+use App\OrderTypes;
+use App\Models\Bill;
 use App\Models\Order;
 use Barryvdh\DomPDF\PDF;
 use Illuminate\Http\Request;
 
 class InvoiceController extends Controller
 {
-    public function print(Order $order)
+    public function print(Order $order, Request $request)
     {
-        // Retrieve the order details
-        $orderDetails = $order;
-        // $company = Company::latest()->first();
+        $type = $request->input('type', 'invoice');
+        $bill = $request->has('bill') ? Bill::with('orders.orderItems.item')->find($request->bill) : null;
+        // dd($bill);
 
-        // You can customize the view name and pass data to it
-        $pdf = app()->make(PDF::class)->loadView('invoices.invoice', ['order' => $orderDetails]);
+        // Force thermal printer formatting
+        $view = match ($type) {
+            'kot' => 'invoices.kot',
+            'bill' => 'invoices.bill',
+            default => 'invoices.invoice'
+        };
 
-        // You can return the PDF as a downloadable file
-        // return $pdf->download('invoice_' . $order->id . '.pdf');
-        
-        // Or you can return the PDF as a viewable document in the browser
-        return $pdf->stream('invoice_' . $order->id . '.pdf');
+        $pdf = app()->make(PDF::class);
+        $pdf->setPaper([0, 0, 226.77, 1000], 'portrait'); // 80mm width thermal paper
+
+        $pdf->loadView($view, [
+            'order' => $order,
+            'bill' => $bill,
+            'orders' => $bill ? $bill->orders : collect([$order])
+        ]);
+
+        return $pdf->stream($type . '_' . $order->id . '.pdf');
     }
 }

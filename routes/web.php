@@ -7,7 +7,7 @@ use App\Http\Controllers\InvoiceController;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
-Route::get('/invoices/{order}', [InvoiceController::class, 'print'])->name('invoice.print');
+Route::get('/orders/{order}/print/', [InvoiceController::class, 'print'])->name('invoice.print');
 // Menu route
 Route::get('/menu', [MenuController::class, 'index'])->name('menu');
 Route::get('contact-us', [HomeController::class, 'contact'])->name('contact');

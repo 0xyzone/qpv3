@@ -4,9 +4,10 @@ namespace App\Filament\Resources;
 
 use App\OrderTypes;
 use Filament\Forms;
+use App\Models\Bill;
 use App\Models\Item;
 use App\Models\User;
-use Filament\Forms\Components\Textarea;
+use Filament\Forms\Set;
 use Filament\Tables;
 use App\Models\Order;
 use App\OrderStatuses;
@@ -18,10 +19,13 @@ use Illuminate\Support\Number;
 use Filament\Resources\Resource;
 use Illuminate\Support\Facades\URL;
 use Filament\Forms\Components\Split;
+use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Fieldset;
 use Filament\Forms\Components\Repeater;
+use Filament\Forms\Components\Textarea;
 use Illuminate\Database\Eloquent\Model;
+use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Placeholder;
 use App\Filament\Resources\OrderResource\Pages;
 
@@ -40,242 +44,174 @@ class OrderResource extends Resource
                     ->default(auth()->id()),
 
                 Forms\Components\Select::make('order_type')
-                    ->selectablePlaceholder(false)
                     ->options(OrderTypes::class)
                     ->required()
                     ->default(OrderTypes::DINE_IN->value)
-                    ->live(onBlur: true)
-                    ->afterStateUpdated(function ($state, Forms\Set $set) {
-                        if ($state === OrderTypes::DELIVERY->value) {
-                            $set('payment_method', PaymentMethods::COD->value);
-                        }
-                    }),
+                    ->live(),
 
-                Forms\Components\TextInput::make('delivery_address')
-                    ->required(fn(Get $get) => $get('order_type') === OrderTypes::DELIVERY->value)
-                    ->hidden(fn(Get $get): bool => $get('order_type') !== OrderTypes::DELIVERY->value),
+                // Bill selection with create option
+                Forms\Components\Select::make('bill_id')
+                    ->label('Link to Table')
+                    ->relationship('bill', 'table_number')
+                    ->options(Bill::where('status', 'open')->pluck('table_number', 'id'))
+                    ->searchable()
+                    ->createOptionForm([
+                        Forms\Components\TextInput::make('table_number')
+                            ->required()
+                            ->label('Table Number')
+                    ])
+                    ->createOptionUsing(function (array $data) {
+                        return Bill::create([
+                            'table_number' => $data['table_number'],
+                            'status' => 'open'
+                        ])->id;
+                    })
+                    ->required(fn(Get $get): bool => $get('order_type') === OrderTypes::DINE_IN->value)
+                    ->hidden(fn(Get $get): bool => $get('order_type') !== OrderTypes::DINE_IN->value),
 
-                Forms\Components\TextInput::make('delivery_phone')
-                    ->required(fn(Get $get) => $get('order_type') === OrderTypes::DELIVERY->value)
-                    ->hidden(fn(Get $get): bool => $get('order_type') !== OrderTypes::DELIVERY->value),
+                // Delivery fields
+                Fieldset::make('Delivery Information')
+                    ->hidden(fn(Get $get): bool => $get('order_type') !== OrderTypes::DELIVERY->value)
+                    ->schema([
+                        Forms\Components\TextInput::make('delivery_contact_name')
+                            ->required(),
+                        Forms\Components\TextInput::make('delivery_address')
+                            ->required(),
+                        Forms\Components\TextInput::make('delivery_phone')
+                            ->required(),
+                        Forms\Components\Textarea::make('delivery_instructions'),
+                        Forms\Components\Select::make('delivery_charge')
+                            ->options([
+                                100 => 'Inside Valley (100)',
+                                150 => 'Outside Valley (150)',
+                            ])
+                            ->default(100)
+                            ->required(),
+                    ]),
 
-                Textarea::make('delivery_instructions')
-                    ->required(fn(Get $get) => $get('order_type') === OrderTypes::DELIVERY->value)
-                    ->hidden(fn(Get $get): bool => $get('order_type') !== OrderTypes::DELIVERY->value),
-
-                // Order Items Repeater
+                // Order items with image in dropdown
                 Repeater::make('orderItems')
                     ->relationship()
                     ->schema([
                         Forms\Components\Select::make('item_id')
                             ->label('Item')
                             ->relationship('item', 'name')
+                            ->getOptionLabelFromRecordUsing(fn(Item $item) => $item->name ?: 'Unnamed Item')
                             ->searchable()
                             ->preload()
                             ->required()
-                            ->live(onBlur: true)
-                            ->selectablePlaceholder(false)
+                            ->live()
+                            ->distinct()
+                            ->disableOptionsWhenSelectedInSiblingRepeaterItems()
+                            ->options(function () {
+                                return Item::query()
+                                    ->whereNotNull('name')
+                                    ->get()
+                                    ->mapWithKeys(function (Item $item) {
+                                        $imageUrl = $item->image_url ?: asset('img/Food placements.png');
+                                        return [
+                                            $item->id => '
+                                <div id="' . $item->name . '" class="flex items-center gap-2">
+                                    <img src="' . e($imageUrl) . '" 
+                                        alt="' . e($item->name) . '" 
+                                        class="h-8 w-8 rounded-full object-cover" />
+                                    <span class="whitespace-nowrap">' . e($item->name ?: 'Unnamed Item') . '</span>
+                                </div>
+                            '
+                                        ];
+                                    });
+                            })
+                            ->getSearchResultsUsing(function (string $search) {
+                                // dd($search);
+                                if (empty($search)) {
+                                    return [];
+                                }
+
+                                return Item::query()
+                                    ->where('name', 'like', '%' . $search . '%')
+                                    ->get()
+                                    ->mapWithKeys(function (Item $item) {
+                                        $imageUrl = $item->image_url ?: asset('img/Food placements.png');
+
+                                        return [
+                                            $item->id => '
+                                <div class="flex items-center gap-2">
+                                    <img src="' . e($imageUrl) . '" 
+                                        alt="' . e($item->name) . '" 
+                                        class="h-8 w-8 rounded-full object-cover" />
+                                    <span class="whitespace-nowrap">' . e($item->name ?: 'Unnamed Item') . '</span>
+                                </div>
+                            '
+                                        ];
+                                    });
+                            })
+                            ->allowHtml()
+                            ->optionsLimit(50)
+                            ->columnSpan(2)
                             ->afterStateUpdated(function ($state, callable $set, callable $get) {
                                 if ($item = Item::find($state)) {
                                     $set('unit_price', $item->price);
-                                    $quantity = (float) ($get('quantity') ?: 0.5);
-                                    $set('total_price', $item->price * $quantity);
+                                    $set('total_price', $item->price * $get('quantity'));
                                 }
                             })
-                            ->columnSpan(4),
+                            ->live() // Add this to recalculate when items change
+                            ->afterStateUpdated(function ($state, $set) {
+                                // Calculate total amount when items change
+                                $total = collect($state)->sum(fn($item) => ($item['total_price'] ?? 0));
+                                $set('total_amount', number_format($total, 2, '.', ''));
+                            }),
 
                         Forms\Components\TextInput::make('quantity')
                             ->numeric()
+                            ->default(1)
                             ->minValue(0.5)
                             ->step(0.5)
-                            ->live(onBlur: true)
-                            ->default(1)
-                            ->afterStateUpdated(function ($state, callable $set, callable $get) {
-                                $unitPrice = (float) ($get('unit_price') ?: 0);
-                                $set('total_price', $unitPrice * $state);
-                            })
-                            ->inputMode('decimal')
-                            ->columnSpan(2),
+                            ->live()
+                            ->afterStateUpdated(function ($state, callable $get, callable $set) {
+                                $set('total_price', $get('unit_price') * $state);
+                            }),
 
                         Forms\Components\TextInput::make('unit_price')
+                            ->numeric()
                             ->prefix('Rs ')
                             ->readOnly()
-                            ->numeric()
-                            ->minValue(0)
-                            ->live(onBlur: true)
-                            ->afterStateUpdated(function ($state, callable $set, callable $get) {
-                                $quantity = (float) ($get('quantity') ?: 0.5);
-                                $set('total_price', $state * $quantity);
-                            })
-                            ->dehydrated()
-                            ->columnSpan(2),
+                            ->default(0),
 
                         Forms\Components\TextInput::make('total_price')
-                            ->prefix('Rs ')
                             ->numeric()
+                            ->prefix('Rs ')
                             ->readOnly()
-                            ->dehydrated()
-                            ->columnSpan(2),
+                            ->default(0),
 
                         Forms\Components\Textarea::make('special_instructions')
-                            ->rows(1)
-                            ->placeholder('Special instructions')
-                            ->autosize()
-                            ->columnSpan(10),
+                            ->placeholder('Special instructions (no onions, extra spicy, etc.)')
+                            ->columnSpanFull()
+                            ->maxLength(500),
                     ])
-                    ->columns(10)
+                    ->columns(5)
                     ->columnSpanFull()
-                    ->live()
-                    ->afterStateUpdated(function (callable $get, callable $set) {
-                        self::updateTotals($get, $set);
+                    ->defaultItems(1)
+                    ->collapsible()
+                    ->cloneable()
+                    ->itemLabel(fn(array $state): ?string => Item::find($state['item_id'])?->name ?? null),
+
+                Forms\Components\Select::make('status')
+                    ->options(OrderStatuses::class)
+                    ->default(OrderStatuses::PENDING->value),
+
+                Forms\Components\TextInput::make('total_amount')
+                    ->numeric()
+                    ->prefix('Rs ')
+                    ->readOnly()
+                    ->default(0)
+                    ->afterStateHydrated(function ($state, $set, $record) {
+                        // Calculate total when form loads for existing records
+                        if ($record && $record->exists) {
+                            $total = $record->orderItems->sum('total_price');
+                            $set('total_amount', number_format($total, 2, '.', ''));
+                        }
                     }),
-
-                // Discount Section
-                Fieldset::make('Discount')
-                    ->schema([
-                        Forms\Components\Select::make('discount_type')
-                            ->options([
-                                'percentage' => 'Percentage (%)',
-                                'fixed_amount' => 'Fixed Amount',
-                            ])
-                            ->live(onBlur: true)
-                            ->afterStateUpdated(function (callable $get, callable $set) {
-                                self::updateTotals($get, $set);
-                            }),
-
-                        Forms\Components\TextInput::make('discount_value')
-                            ->numeric()
-                            ->prefix(fn(Get $get) => $get('discount_type') === 'percentage' ? '%' : 'Rs ')
-                            ->live(onBlur: true)
-                            ->afterStateUpdated(function (callable $get, callable $set) {
-                                self::updateTotals($get, $set);
-                            })
-                            ->hidden(fn(Get $get): bool => $get('discount_type') === null),
-                    ])
-                    ->columns(2)
-                    ->columnSpan(1),
-
-                // Delivery Section
-                Fieldset::make('Delivery')
-                    ->hidden(fn(Get $get): bool => $get('order_type') !== OrderTypes::DELIVERY->value)
-                    ->schema([
-                        Forms\Components\TextInput::make('delivery_charge')
-                            ->prefix('Rs ')
-                            ->numeric()
-                            ->default(0)
-                            ->live(onBlur: true)
-                            ->afterStateUpdated(function (callable $get, callable $set) {
-                                self::updateTotals($get, $set);
-                            }),
-                    ])
-                    ->columnSpan(1),
-
-                // Payment & Status
-                Fieldset::make('Payment & Status')
-                    ->schema([
-                        Forms\Components\Select::make('payment_method')
-                            ->options(PaymentMethods::class)
-                            ->required()
-                            ->default(PaymentMethods::CASH->value),
-
-                        Forms\Components\Select::make('payment_status')
-                            ->options([
-                                'unpaid' => 'Unpaid',
-                                'partial' => 'Partial Payment',
-                                'paid' => 'Paid',
-                            ])
-                            ->required()
-                            ->default('unpaid'),
-
-                        Forms\Components\Select::make('status')
-                            ->options(OrderStatuses::class)
-                            ->required()
-                            ->default(OrderStatuses::PENDING->value),
-
-                        Forms\Components\DateTimePicker::make('completed_at'),
-                    ])
-                    ->columns(2),
-
-                // Order Notes
-                Forms\Components\Textarea::make('notes')
-                    ->placeholder('Order notes')
-                    ->columnSpanFull(),
-
-                // Totals Summary
-                Section::make('Total Summary')
-                    ->extraAttributes(['class' => 'fixed w-max', 'style' => 'bottom: 20px; left: 20px;'])
-                    ->schema([
-                        Placeholder::make('subtotal_placeholder')
-                            ->label('Sub Total')
-                            ->inlineLabel()
-                            ->content(fn(Get $get) => 'Rs ' . number_format($get('subtotal'), 2)),
-
-                        Placeholder::make('discount_placeholder')
-                            ->label('Discount')
-                            ->inlineLabel()
-                            ->content(fn(Get $get) => 'Rs ' . number_format($get('discount_amount'), 2))
-                            ->hidden(fn(Get $get): bool => $get('discount_amount') <= 0),
-
-                        Placeholder::make('delivery_placeholder')
-                            ->label('Delivery')
-                            ->inlineLabel()
-                            ->content(fn(Get $get) => 'Rs ' . number_format($get('delivery_charge'), 2))
-                            ->hidden(fn(Get $get): bool => $get('delivery_charge') <= 0)
-                            ->extraAttributes([
-                                'class' => 'w-max'
-                            ]),
-
-                        Placeholder::make('total_placeholder')
-                            ->label('Total')
-                            ->inlineLabel()
-                            ->content(fn(Get $get) => 'Rs ' . number_format($get('total_amount'), 2)),
-
-                        // Hidden fields for calculations
-                        Forms\Components\Hidden::make('subtotal'),
-                        Forms\Components\Hidden::make('discount_amount'),
-                        Forms\Components\Hidden::make('total_amount'),
-                    ]),
-            ])
-            ->columns(2);
-    }
-
-    public static function updateTotals(callable $get, callable $set): void
-    {
-        // Calculate subtotal from order items
-        $orderItems = $get('orderItems');
-        $selectedProducts = collect($get('orderItems'))->filter(fn($item) => !empty($item['item_id']) && !empty($item['quantity']));
-        $prices = Item::find($selectedProducts->pluck('item_id'))->pluck('price', 'id');
-        $subtotal = $selectedProducts->reduce(function ($subtotal, $product) use ($prices) {
-            return $subtotal + ($prices[$product['item_id']] * $product['quantity']);
-        }, 0);
-
-        // if (is_array($orderItems)) {
-        //     foreach ($orderItems as $item) {
-        //         $subtotal += (float) ($item['total_price'] ?? 0);
-        //     }
-        // }
-
-        // Calculate discount
-        $discountType = $get('discount_type');
-        $discountValue = (float) ($get('discount_value') ?? 0);
-        $discountAmount = 0;
-
-        if ($discountType === 'percentage') {
-            $discountAmount = $subtotal * ($discountValue / 100);
-        } elseif ($discountType === 'fixed_amount') {
-            $discountAmount = $discountValue;
-        }
-
-        // Get delivery charge
-        $deliveryCharge = (float) ($get('delivery_charge') ?? 0);
-
-        // Calculate total
-        $total = $subtotal - $discountAmount + $deliveryCharge;
-
-        // Update hidden fields
-        $set('subtotal', number_format($subtotal, 2, '.', ''));
-        $set('discount_amount', number_format($discountAmount, 2, '.', ''));
-        $set('total_amount', number_format($total, 2, '.', ''));
+            ]);
     }
 
     public static function table(Table $table): Table
@@ -303,22 +239,18 @@ class OrderResource extends Resource
 
                 Tables\Columns\TextColumn::make('orderItems')
                     ->formatStateUsing(function ($state) {
-                        // Handle both collection and single model cases
                         $items = $state instanceof \Illuminate\Database\Eloquent\Collection
                             ? $state
                             : collect([$state]);
 
-                        // Return as array for listWithLineBreaks
-                        return $items->map(
-                            function ($item) {
+                        return $items->map(function ($item) {
                             $quantity = $item->quantity;
                             $formattedQty = ($quantity == floor($quantity))
                                 ? number_format($quantity)
                                 : number_format($quantity, 1);
 
                             return $item->item->name . ' (x' . $formattedQty . ')';
-                        }
-                        )->implode(', ');
+                        })->implode(', ');
                     })
                     ->listWithLineBreaks()
                     ->badge()
@@ -357,11 +289,17 @@ class OrderResource extends Resource
                     ->action(function (Order $record) {
                         $record->update(['payment_status' => 'paid']);
                     }),
-                Tables\Actions\Action::make('Print Invoice')
+                Tables\Actions\Action::make('Print KOT')
                     ->url(function (Model $record) {
-                        return URL::route('invoice.print', ['order' => $record]);
+                        return URL::route('invoice.print', [
+                            'order' => $record,
+                            'type' => 'kot',
+                            'bill' => $record->bill_id
+                        ]);
                     }, shouldOpenInNewTab: true)
                     ->button()
+                    ->icon('heroicon-o-printer')
+                    ->color('warning')
                     ->visible(fn(Model $record): bool => $record->status != 'cancelled')
             ])
             ->bulkActions([

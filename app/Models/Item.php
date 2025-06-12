@@ -33,4 +33,20 @@ class Item extends Model
     protected $casts = [
         'price' => 'float',
     ];
+
+    // In your Item model
+    public function getImageUrlAttribute()
+    {
+        if (!$this->image) {
+            return null;
+        }
+
+        if (filter_var($this->image, FILTER_VALIDATE_URL)) {
+            return $this->image;
+        }
+
+        return asset('storage/' . $this->image);
+    }
+
+    protected $appends = ['image_url'];
 }
