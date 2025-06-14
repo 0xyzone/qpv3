@@ -42,7 +42,7 @@ class ExpenseResource extends Resource
                     ->disk('public')->imageEditor()
                     ->imagePreviewHeight(250)
                     ->acceptedFileTypes(['image/jpeg', 'image/png', 'image/webp'])
-                    ->helperText('Max file size: 2MB. Allowed types: JPG, PNG, WEBP'),
+                    ->helperText('Max file size: 1MB. Allowed types: JPG, PNG, WEBP'),
                 Forms\Components\Textarea::make('notes')
                     ->rows(5)
                     ->maxLength(1000)
