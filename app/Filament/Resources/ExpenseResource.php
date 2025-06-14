@@ -65,7 +65,8 @@ class ExpenseResource extends Resource
                 Tables\Columns\TextColumn::make('amount')
                     ->prefix('रु ')
                     ->sortable(),
-                Tables\Columns\ImageColumn::make('bill_photo_path'),
+                Tables\Columns\ImageColumn::make('bill_photo_path')
+                    ->simpleLightbox(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()

@@ -3,7 +3,7 @@
         'name' => 'laravel/laravel',
         'pretty_version' => 'dev-main',
         'version' => 'dev-main',
-        'reference' => '68492b68f365517bda39f22da95bc053e0efcf08',
+        'reference' => 'dfd0418aa7a00c66c0e78d1b472c5457bba0be8d',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -577,7 +577,7 @@
         'laravel/laravel' => array(
             'pretty_version' => 'dev-main',
             'version' => 'dev-main',
-            'reference' => '68492b68f365517bda39f22da95bc053e0efcf08',
+            'reference' => 'dfd0418aa7a00c66c0e78d1b472c5457bba0be8d',
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
@@ -1246,6 +1246,15 @@
             'install_path' => __DIR__ . '/../sebastian/version',
             'aliases' => array(),
             'dev_requirement' => true,
+        ),
+        'solution-forest/filament-simplelightbox' => array(
+            'pretty_version' => '0.0.11',
+            'version' => '0.0.11.0',
+            'reference' => 'aa868ba68b991cad8cbe63749df131dfec301a32',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../solution-forest/filament-simplelightbox',
+            'aliases' => array(),
+            'dev_requirement' => false,
         ),
         'spatie/color' => array(
             'pretty_version' => '1.8.0',

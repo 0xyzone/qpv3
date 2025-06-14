@@ -46,6 +46,8 @@ return array(
     'Spatie\\Invade\\' => array($vendorDir . '/spatie/invade/src'),
     'Spatie\\EloquentSortable\\' => array($vendorDir . '/spatie/eloquent-sortable/src'),
     'Spatie\\Color\\' => array($vendorDir . '/spatie/color/src'),
+    'SolutionForest\\FilamentSimpleLightBox\\Database\\Factories\\' => array($vendorDir . '/solution-forest/filament-simplelightbox/database/factories'),
+    'SolutionForest\\FilamentSimpleLightBox\\' => array($vendorDir . '/solution-forest/filament-simplelightbox/src'),
     'Sabberworm\\CSS\\' => array($vendorDir . '/sabberworm/php-css-parser/src'),
     'RyanChandler\\BladeCaptureDirective\\Database\\Factories\\' => array($vendorDir . '/ryangjchandler/blade-capture-directive/database/factories'),
     'RyanChandler\\BladeCaptureDirective\\' => array($vendorDir . '/ryangjchandler/blade-capture-directive/src'),

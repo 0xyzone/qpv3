@@ -18,6 +18,7 @@ use Filament\Http\Middleware\DispatchServingFilamentEvent;
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 use Leandrocfe\FilamentApexCharts\FilamentApexChartsPlugin;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
+use SolutionForest\FilamentSimpleLightBox\SimpleLightBoxPlugin;
 
 class MukhiyasPanelProvider extends PanelProvider
 {
@@ -62,7 +63,8 @@ class MukhiyasPanelProvider extends PanelProvider
             ])
             ->databaseNotifications()
             ->plugins([
-                FilamentApexChartsPlugin::make()
+                FilamentApexChartsPlugin::make(),
+                SimpleLightBoxPlugin::make()
             ]);
     }
 }

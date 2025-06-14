@@ -16,8 +16,8 @@ class ComposerStaticInit68fad49463268d4aa088fd2b6776e7a1
         '662a729f963d39afe703c9d9b7ab4a8c' => __DIR__ . '/..' . '/symfony/polyfill-php83/bootstrap.php',
         '667aeda72477189d0494fecd327c3641' => __DIR__ . '/..' . '/symfony/var-dumper/Resources/functions/dump.php',
         'f598d06aa772fa33d905e87be6398fb1' => __DIR__ . '/..' . '/symfony/polyfill-intl-idn/bootstrap.php',
-        'a4a119a56e50fbb293281d9a48007e0e' => __DIR__ . '/..' . '/symfony/polyfill-php80/bootstrap.php',
         '47e1160838b5e5a10346ac4084b58c23' => __DIR__ . '/..' . '/laravel/prompts/src/helpers.php',
+        'a4a119a56e50fbb293281d9a48007e0e' => __DIR__ . '/..' . '/symfony/polyfill-php80/bootstrap.php',
         '29ffe97919493792170d47eb03a68da9' => __DIR__ . '/..' . '/blade-ui-kit/blade-icons/src/helpers.php',
         '40275907c8566c390185147049ef6e5d' => __DIR__ . '/..' . '/livewire/livewire/src/helpers.php',
         '2c620c99f96a2b964346b45a4d1d1e64' => __DIR__ . '/..' . '/spatie/invade/src/functions.php',
@@ -104,6 +104,8 @@ class ComposerStaticInit68fad49463268d4aa088fd2b6776e7a1
             'Spatie\\Invade\\' => 14,
             'Spatie\\EloquentSortable\\' => 24,
             'Spatie\\Color\\' => 13,
+            'SolutionForest\\FilamentSimpleLightBox\\Database\\Factories\\' => 57,
+            'SolutionForest\\FilamentSimpleLightBox\\' => 38,
             'Sabberworm\\CSS\\' => 15,
         ),
         'R' => 
@@ -392,6 +394,14 @@ class ComposerStaticInit68fad49463268d4aa088fd2b6776e7a1
         'Spatie\\Color\\' => 
         array (
             0 => __DIR__ . '/..' . '/spatie/color/src',
+        ),
+        'SolutionForest\\FilamentSimpleLightBox\\Database\\Factories\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/solution-forest/filament-simplelightbox/database/factories',
+        ),
+        'SolutionForest\\FilamentSimpleLightBox\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/solution-forest/filament-simplelightbox/src',
         ),
         'Sabberworm\\CSS\\' => 
         array (
@@ -7736,6 +7746,11 @@ class ComposerStaticInit68fad49463268d4aa088fd2b6776e7a1
         'SebastianBergmann\\Type\\UnknownType' => __DIR__ . '/..' . '/sebastian/type/src/type/UnknownType.php',
         'SebastianBergmann\\Type\\VoidType' => __DIR__ . '/..' . '/sebastian/type/src/type/VoidType.php',
         'SebastianBergmann\\Version' => __DIR__ . '/..' . '/sebastian/version/src/Version.php',
+        'SolutionForest\\FilamentSimpleLightBox\\Facades\\FilamentSimpleLightBox' => __DIR__ . '/..' . '/solution-forest/filament-simplelightbox/src/Facades/FilamentSimpleLightBox.php',
+        'SolutionForest\\FilamentSimpleLightBox\\FilamentSimpleLightBox' => __DIR__ . '/..' . '/solution-forest/filament-simplelightbox/src/FilamentSimpleLightBox.php',
+        'SolutionForest\\FilamentSimpleLightBox\\FilamentSimpleLightBoxServiceProvider' => __DIR__ . '/..' . '/solution-forest/filament-simplelightbox/src/FilamentSimpleLightBoxServiceProvider.php',
+        'SolutionForest\\FilamentSimpleLightBox\\SimpleLightBoxPlugin' => __DIR__ . '/..' . '/solution-forest/filament-simplelightbox/src/SimpleLightBoxPlugin.php',
+        'SolutionForest\\FilamentSimpleLightBox\\Testing\\TestsFilamentSimpleLightBox' => __DIR__ . '/..' . '/solution-forest/filament-simplelightbox/src/Testing/TestsFilamentSimpleLightBox.php',
         'Spatie\\Color\\CIELab' => __DIR__ . '/..' . '/spatie/color/src/CIELab.php',
         'Spatie\\Color\\Cmyk' => __DIR__ . '/..' . '/spatie/color/src/Cmyk.php',
         'Spatie\\Color\\Color' => __DIR__ . '/..' . '/spatie/color/src/Color.php',
