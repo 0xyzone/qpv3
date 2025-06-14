@@ -40,10 +40,7 @@ class ExpenseResource extends Resource
                     ->image()
                     ->directory('expense_bills')
                     ->disk('public')->imageEditor()
-                    ->imageCropAspectRatio('4:3')
-                    ->imageResizeMode('cover')
                     ->imagePreviewHeight(250)
-                    ->maxSize(2048)
                     ->acceptedFileTypes(['image/jpeg', 'image/png', 'image/webp'])
                     ->helperText('Max file size: 2MB. Allowed types: JPG, PNG, WEBP'),
                 Forms\Components\Textarea::make('notes')
