@@ -67,7 +67,8 @@ class ExpenseResource extends Resource
                     ->sortable(),
                 Tables\Columns\ImageColumn::make('bill_photo_path')
                     ->simpleLightbox(),
-                Tables\Columns\TextColumn::make(name: 'notes'),
+                Tables\Columns\TextColumn::make(name: 'notes')
+                    ->limit(30),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
@@ -81,6 +82,7 @@ class ExpenseResource extends Resource
                 //
             ])
             ->actions([
+                Tables\Actions\ViewAction::make(),
                 Tables\Actions\EditAction::make(),
             ])
             ->bulkActions([
