@@ -67,7 +67,7 @@ class ItemResource extends Resource
                             ->disk('public')
                             // ->required()
                             ->imageEditor()
-                            ->imageCropAspectRatio('4:3')
+                            ->imageCropAspectRatio('16:9')
                             ->imageResizeMode('cover')
                             ->imagePreviewHeight(250)
                             ->maxSize(2048)
