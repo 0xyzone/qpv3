@@ -27,7 +27,7 @@
                     <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
                         @foreach($category->items as $item)
                         <div class="menu-item bg-white rounded-4xl shadow-lg overflow-hidden border border-violet-200 hover:shadow-xl transition-shadow duration-300 flex flex-col">
-                            <div class="relative h-52 aspect-square">
+                            <div class="relative h-64 aspect-square">
                                 <img src="{{ $item->photo_path ? asset('storage/' . $item->photo_path) : asset('img/Food placements.png') }}" alt="{{ $item->name }}" class="absolute inset-0 w-full h-full aspect-square object-cover">
                             </div>
                             <div class="p-6 flex flex-col flex-grow">
