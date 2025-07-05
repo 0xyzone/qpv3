@@ -16,7 +16,7 @@
                         All Items
                     </button>
                     @foreach($categories as $index => $category)
-                    <button class="tab-button px-4 py-2 text-sm font-medium text-violet-700 rounded-md focus:outline-none cursor-pointer hover:bg-violet-200 hover:scale-110 duration-300 {{ $index === 0 ? 'bg-violet-200' : 'bg-white' }} flex-shrink-0" data-tab="tab{{ $index }}">
+                    <button class="tab-button px-4 py-2 text-sm font-medium rounded-md focus:outline-none cursor-pointer hover:bg-violet-200 hover:scale-110 duration-300 {{ $index === 0 ? 'bg-violet-200' : 'bg-white' }} flex-shrink-0" data-tab="tab{{ $index }}">
                         {{ $category->name }}
                     </button>
                     @endforeach
