@@ -12,6 +12,9 @@
             <!-- Tabs for Categories -->
             <div class="mb-4">
                 <div class="flex overflow-x-auto space-x-4 py-4">
+                    <button class="tab-button px-4 py-2 text-sm font-medium text-violet-700 rounded-md focus:outline-none cursor-pointer hover:bg-violet-200 hover:scale-110 duration-300 bg-violet-200 flex-shrink-0" data-tab="tabAll">
+                        All Items
+                    </button>
                     @foreach($categories as $index => $category)
                     <button class="tab-button px-4 py-2 text-sm font-medium text-violet-700 rounded-md focus:outline-none cursor-pointer hover:bg-violet-200 hover:scale-110 duration-300 {{ $index === 0 ? 'bg-violet-200' : 'bg-white' }} flex-shrink-0" data-tab="tab{{ $index }}">
                         {{ $category->name }}
@@ -22,6 +25,28 @@
 
             <!-- Menu Items -->
             <div id="menuItems">
+                <!-- All Items Tab -->
+                <div class="tab-content block" id="tabAll">
+                    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        @foreach($categories as $category)
+                            @foreach($category->items as $item)
+                            <div class="menu-item bg-white rounded-4xl shadow-lg overflow-hidden border border-violet-200 hover:shadow-xl transition-shadow duration-300 flex flex-col">
+                                <div class="relative h-64 aspect-square">
+                                    <img src="{{ $item->photo_path ? asset('storage/' . $item->photo_path) : asset('img/Food placements.png') }}" alt="{{ $item->name }}" class="absolute inset-0 w-full h-full object-cover">
+                                </div>
+                                <div class="p-6 flex flex-col flex-grow">
+                                    <h3 class="font-semibold text-violet-800 text-lg h-fit">{{ $item->name }}</h3>
+                                    @if($item->description)
+                                    <p class="text-sm text-gray-600 mt-1 flex-grow">{{ $item->description }}</p>
+                                    @endif
+                                    <span class="font-bold text-violet-700 text-lg mt-2">रु {{ number_format($item->price, 2) }}</span>
+                                </div>
+                            </div>
+                            @endforeach
+                        @endforeach
+                    </div>
+                </div>
+
                 @foreach($categories as $index => $category)
                 <div class="tab-content {{ $index === 0 ? 'block' : 'hidden' }}" id="tab{{ $index }}">
                     <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -83,8 +108,12 @@
 
             function filterMenu() {
                 const searchTerm = searchInput.value.toLowerCase();
+                const activeTab = document.querySelector('.tab-content:not(.hidden)');
 
-                menuItems.forEach(item => {
+                // Filter items based on the active tab
+                const itemsToFilter = activeTab.id === 'tabAll' ? menuItems : activeTab.querySelectorAll('.menu-item');
+
+                itemsToFilter.forEach(item => {
                     const itemName = item.querySelector('h3').textContent.toLowerCase();
                     if (itemName.includes(searchTerm)) {
                         item.classList.remove('hidden');
@@ -94,7 +123,6 @@
                 });
             }
         });
-
     </script>
     @endpush
 </x-app>
