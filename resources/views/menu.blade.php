@@ -9,15 +9,8 @@
                 <input type="text" id="search" placeholder="Search..." class="block w-full p-3 border border-violet-300 rounded-2xl focus:outline-none focus:ring focus:ring-violet-500" />
             </div>
 
-            <!-- View Toggle Button -->
-            <div class="mb-4 flex justify-end">
-                <button id="toggleView" class="px-4 py-2 text-sm font-medium text-violet-700 rounded-md focus:outline-none cursor-pointer hover:bg-violet-200 duration-300">
-                    <!-- Button text will be set by JavaScript -->
-                </button>
-            </div>
-
             <!-- Tabs for Categories -->
-            <div class="mb-4">
+            <div class="mb-4 flex justify-between items-center">
                 <div class="flex overflow-x-auto space-x-4 py-4">
                     <button class="tab-button px-4 py-2 text-sm font-medium text-violet-700 rounded-md focus:outline-none cursor-pointer hover:bg-violet-200 hover:scale-110 duration-300 bg-violet-200 flex-shrink-0" data-tab="tabAll">
                         All Items
@@ -27,6 +20,12 @@
                         {{ $category->name }}
                     </button>
                     @endforeach
+                </div>
+                <!-- View Toggle Button -->
+                <div class="">
+                    <button id="toggleView" class="px-4 py-2 text-sm font-medium text-violet-700 rounded-md focus:outline-none cursor-pointer hover:bg-violet-200 duration-300">
+                        <i class="fa-solid fa-list-timeline"></i>
+                    </button>
                 </div>
             </div>
 
@@ -46,7 +45,9 @@
                                 @if($item->description)
                                 <p class="text-sm text-gray-600 mt-1 flex-grow">{{ $item->description }}</p>
                                 @endif
-                                <span class="font-bold text-violet-700 text-lg mt-2">रु {{ number_format($item->price, 2) }}</span>
+                                <div class="flex items-center mt-2">
+                                    <span class="font-bold text-violet-700 text-lg">रु {{ number_format($item->price, 2) }}</span>
+                                </div>
                             </div>
                         </div>
                         @endforeach
@@ -67,7 +68,9 @@
                                 @if($item->description)
                                 <p class="text-sm text-gray-600 mt-1 flex-grow">{{ $item->description }}</p>
                                 @endif
-                                <span class="font-bold text-violet-700 text-lg mt-2">रु {{ number_format($item->price, 2) }}</span>
+                                <div class="flex items-center mt-2">
+                                    <span class="font-bold text-violet-700 text-lg">रु {{ number_format($item->price, 2) }}</span>
+                                </div>
                             </div>
                         </div>
                         @endforeach
@@ -94,10 +97,10 @@
             function setInitialView() {
                 if (isGridView) {
                     menuItemsContainer.classList.add('grid-view');
-                    toggleViewButton.textContent = 'Switch to List View';
+                    toggleViewButton.innerHTML = '<i class="fa-solid fa-list-timeline"></i>';
                 } else {
                     menuItemsContainer.classList.add('list-view');
-                    toggleViewButton.textContent = 'Switch to Grid View';
+                    toggleViewButton.innerHTML = '<i class="fa-solid fa-grid"></i>';
                 }
             }
 
@@ -155,11 +158,11 @@
                 if (isGridView) {
                     menuItemsContainer.classList.remove('list-view');
                     menuItemsContainer.classList.add('grid-view');
-                    toggleViewButton.textContent = 'Switch to List View';
+                    toggleViewButton.innerHTML = '<i class="fa-solid fa-list-timeline"></i>';
                 } else {
                     menuItemsContainer.classList.remove('grid-view');
                     menuItemsContainer.classList.add('list-view');
-                    toggleViewButton.textContent = 'Switch to Grid View';
+                    toggleViewButton.innerHTML = '<i class="fa-solid fa-grid"></i>';
                 }
 
                 // Refresh filtered items to apply new view
@@ -173,37 +176,53 @@
     <style>
         .list-view .menu-item {
             display: flex !important;
-            flex-direction: row;
-            margin-bottom: 1.5rem;
-            max-width: 100%;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
             width: 100%;
+            border-bottom: 1px solid #eee;
         }
 
         .list-view .menu-item>div:first-child {
-            width: 200px;
-            min-width: 200px;
-            height: 150px;
-            margin-right: 1.5rem;
+            width: 50px;
+            height: 50px;
         }
 
         .list-view .menu-item img {
             width: 100%;
             height: 100%;
             object-fit: cover;
-            border-radius: 1rem 0 0 1rem;
+            border-radius: 50%;
+        }
+
+        .list-view .menu-item h3 {
+            flex: 1;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            font-size: 1rem;
+        }
+
+        .list-view .menu-item span {
+            font-size: 1rem;
+        }
+
+        .list-view .menu-item h3:after {
+            content: ".........................................................................";
+            color: #ccc;
+            padding-left: 0.5rem;
+            padding-right: 0.5rem;
+            letter-spacing: 0.2rem;
         }
 
         .list-view .menu-item>div:last-child {
-            flex: 1;
-            padding: 1.5rem;
+            display: none;
         }
 
         .list-view .grid {
-            display: block !important;
-        }
-
-        .list-view .grid>div {
-            max-width: none !important;
+            display: flex !important;
+            flex-direction: column;
+            gap: 0.5rem;
         }
 
     </style>
