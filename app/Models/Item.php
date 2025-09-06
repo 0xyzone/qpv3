@@ -37,15 +37,15 @@ class Item extends Model
     // In your Item model
     public function getImageUrlAttribute()
     {
-        if (!$this->image) {
+        if (!$this->photo_path) {
             return null;
         }
 
-        if (filter_var($this->image, FILTER_VALIDATE_URL)) {
-            return $this->image;
+        if (filter_var($this->photo_path, FILTER_VALIDATE_URL)) {
+            return $this->photo_path;
         }
 
-        return asset('storage/' . $this->image);
+        return asset('storage/' . $this->photo_path);
     }
 
     protected $appends = ['image_url'];
