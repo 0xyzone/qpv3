@@ -12,3 +12,7 @@ Route::get('/orders/{order}/print/', [InvoiceController::class, 'print'])->name(
 Route::get('/menu', [MenuController::class, 'index'])->name('menu');
 Route::get('contact-us', [HomeController::class, 'contact'])->name('contact');
 Route::view('demo', 'demo')->name('demo');
+
+Route::get('wifi', function () {
+    return response('WIFI:T:WPA;P:9861748449;S:QuickPick Public;H:false;');
+})->name('wifi');
