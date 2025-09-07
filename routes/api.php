@@ -10,6 +10,6 @@ Route::get('/user', function (Request $request) {
 
 Route::get('/items', function() {
     return response()->json([
-        Item::all()
+        $items[] = Item::all()
     ]);
 });
