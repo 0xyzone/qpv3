@@ -45,7 +45,8 @@ class Item extends Model
             return $this->photo_path;
         }
 
-        return asset('storage/' . $this->photo_path);
+        // return asset('storage/' . $this->photo_path);
+        return null;
     }
 
     protected $appends = ['image_url'];
