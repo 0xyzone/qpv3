@@ -9,7 +9,7 @@ Route::get('/user', function (Request $request) {
 })->middleware('auth:sanctum');
 
 Route::get('/items', function() {
-    return response()->json([
+    return response()->json(
         $items[] = Item::all()
-    ]);
+    );
 });
