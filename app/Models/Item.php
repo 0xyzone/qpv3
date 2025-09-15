@@ -38,7 +38,7 @@ class Item extends Model
     public function getImageUrlAttribute()
     {
         if (!$this->photo_path) {
-            return null;
+            return asset('img/Food placements.png');
         }
 
         if (filter_var($this->photo_path, FILTER_VALIDATE_URL)) {
